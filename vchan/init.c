@@ -237,8 +237,13 @@ int libvchan_cleanup(struct libvchan *ctrl)
         xc_evtchn_close(ctrl->evfd);
 #ifdef QREXEC_RING_V2
 	/* not implemented yet, need to store gntmem_handle from ring_init somewhere */
+#ifndef WINNT
 	assert(0);
+#endif
 	/* in case of disabled assertions */
+#ifdef WINNT
+#define EINVAL 22
+#endif
 	errno = EINVAL;
 	return -1;
 #else /* QREXEC_RING_V2 */
